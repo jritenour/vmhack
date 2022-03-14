@@ -1,0 +1,54 @@
+---
+- hosts: localhost
+  tasks:
+  # tasks file for omnivm-windows
+  - name: Create templates VMs
+    vmware_deploy_ovf:
+      hostname: 'vcenter.home.lab'
+      username: 'administrator@vsphere.local'
+      password: 'password'
+      ovf: "{{ item.ovf_path }}"
+      datacenter: Home
+      datastore: datastore1
+      networks: {"VM Network":"VM Network"}
+      validate_certs: no
+      name: "{{ item.name }}"
+      power_on: no
+      wait_for_ip_address: no
+    with_items:
+      - name: ubuntutemplate
+        ovf_path: /mnt/linuxtemplate/ubuntutemplate.ovf
+      - name: wintemplate
+        ovf_path: /mnt/wintemplate/wintemplate.ovf
+
+  - name: create VMs from template
+    vmware_guest:
+      hostname: 'vcenter.home.lab'
+      username: 'administrator@vsphere.local'
+      password: 'password'
+      datacenter: Home
+      datastore: datastore1
+      state: poweredon
+      template: ubuntutemplate
+      folder: test
+      name: "{{ item }}"
+      is_template: false
+    with_items:
+      - ubuntu1
+
+- name: create VMs from template
+    vmware_guest:
+      hostname: 'vcenter.home.lab'
+      username: 'administrator@vsphere.local'
+      password: 'password$'
+      datacenter: Home
+      datastore: datastore1
+      state: poweredon
+      template: wintemplate
+      folder: test
+      name: "{{ item }}"
+      is_template: false
+    with_items:
+      - win1
+      - win2
+      - win3
