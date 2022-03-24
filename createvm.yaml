@@ -52,3 +52,12 @@
       - win1
       - win2
       - win3
+- hosts: 172.16.0.12
+  tasks:
+  - name: install ove apps
+    win_shell: 'start omniverse-launcher://install?path=C:\oveapps\cache.2022.1.0.windows-x86_64-ent-package.zip'
+  - name: install ove apps
+    win_shell: 'start omniverse-launcher://install?path=C:\oveapps\view.2021.3.10.windows-x86_64-ent-package.zip'
+
+  - name: install ove apps
+    win_shell: 'start omniverse-launcher://install?path=C:\oveapps\create.2021.3.8.windows-x86_64-ent-package.zip'
